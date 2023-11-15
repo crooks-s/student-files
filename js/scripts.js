@@ -104,6 +104,7 @@ gallery.addEventListener('click', (e) => {
     if ( !e.target.className.includes('card') ){
         return;
     } else {
+        e.stopPropagation();
         generateModalHTML(e);
     };
 });
@@ -112,10 +113,8 @@ gallery.addEventListener('click', (e) => {
 document.addEventListener('click', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     const closeBtn = document.querySelector('.modal-close-btn');
-    if (modalContainer && 
-        (e.target === closeBtn || closeBtn.contains(e.target)) 
-    ){
-        document.body.removeChild(modalContainer);
+    if (modalContainer && closeBtn.contains(e.target)){
+        modalContainer.remove();
     };
 });
 
@@ -123,6 +122,15 @@ document.addEventListener('click', (e) => {
 document.addEventListener('keyup', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     if (modalContainer && e.key === 'Escape') {
-        document.body.removeChild(modalContainer);
+        modalContainer.remove();
+    };
+});
+
+//close/delete modal on clicking out of modal
+document.addEventListener('click', (e) => {
+    const modalContainer = document.querySelector('.modal-container');
+    const modalInfoContainer = document.querySelector('.modal-info-container');
+    if (modalContainer && !modalInfoContainer.contains(e.target)){
+        modalContainer.remove();
     };
 });
