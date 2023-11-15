@@ -1,24 +1,36 @@
 // Global DOM vars
 const gallery = document.querySelector('#gallery');
 
-//Fetch 12 users from API 
-async function getJSON(url) {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        const resultsArr = data.results;
-        return resultsArr;
 
-    } catch(err) {
-        throw err;
-    };
-};
+//===================
+// FETCH DATA
+//-------------------
+function fetchData (url) {
+    return fetch(url)
+        .then( response => {
+            if(!response.ok) {
+                throw new Error ('Something went wrong')
+            }
+            return response.json();
+        });
+}
 
-// create HTML for each person retrieved
-async function getPeople(url) {
-    const peopleJSON = await getJSON(url);
+fetchData('https://randomuser.me/api/?results=12')
+    .then( data => {
+        return data.results;
+    })
+    .then( results => generateGalleryHTML(results) )
+    .catch(error => {
+        console.error('Error: ', error);
+    });
 
-    for (const person of peopleJSON){
+//===================
+// GENERATE HTML DATA
+//-------------------
+
+// Create and populate user info to gallery
+function generateGalleryHTML(results) {
+    for (const person of results){
         const html = `
         <div class="card">
         <div class="card-img-container">
@@ -33,36 +45,43 @@ async function getPeople(url) {
 
         gallery.insertAdjacentHTML('beforeend', html);
     };
+}
 
-};
+// Create and populate user info for modal
+function generateModalHTML() {
+    const html = `
+        <div class="modal-container">
+        <div class="modal">
+            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+            <div class="modal-info-container">
+                <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
+                <h3 id="name" class="modal-name cap">name</h3>
+                <p class="modal-text">email</p>
+                <p class="modal-text cap">city</p>
+                <hr>
+                <p class="modal-text">(555) 555-5555</p>
+                <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
+                <p class="modal-text">Birthday: 10/21/2015</p>
+            </div>
+        </div>
+    `;
 
+    document.body.insertAdjacentHTML('beforeend', html);
+}
+
+
+//===================
+// MODAL HANDLING DATA
+//-------------------
 /**
  * create modal window when any part of employee item is clicked
  * include: image, name, email, city/location, cell#, detailed address, birthday
- * 
- * add way to close modal window
  */
 gallery.addEventListener('click', (e) => {
     if ( !e.target.className.includes('card') ){
         return;
     } else {
-        let html = `
-            <div class="modal-container">
-            <div class="modal">
-                <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                <div class="modal-info-container">
-                    <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
-                    <h3 id="name" class="modal-name cap">name</h3>
-                    <p class="modal-text">email</p>
-                    <p class="modal-text cap">city</p>
-                    <hr>
-                    <p class="modal-text">(555) 555-5555</p>
-                    <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-                    <p class="modal-text">Birthday: 10/21/2015</p>
-                </div>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', html);
+        generateModalHTML();
     };
 });
 
@@ -84,6 +103,3 @@ document.addEventListener('keyup', (e) => {
         document.body.removeChild(modalContainer);
     }
 });
-
-// call the function to get and display 12 users
-getPeople('https://randomuser.me/api/?results=12');
