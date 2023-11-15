@@ -4,8 +4,10 @@ const gallery = document.querySelector('#gallery');
 
 
 //===================
-// FETCH DATA
+// FETCH DATA and CACHE USERS
 //-------------------
+let cachedUsers;
+
 function fetchData (url) {
     return fetch(url)
         .then( response => {
@@ -16,10 +18,21 @@ function fetchData (url) {
         });
 }
 
-fetchData('https://randomuser.me/api/?results=12')
-    .then( data => {
-        return data.results;
-    })
+function cacheUsers(url) {
+    //if already cached, then return the cached data
+    if (cachedUsers) {
+        return Promise.resolve(cachedUsers);
+    // else fetch and cache them in a var
+    } else {
+        return fetchData(url)
+            .then( data => {
+                cachedUsers = data.results;
+                return cachedUsers;
+            });
+    }
+}
+
+cacheUsers('https://randomuser.me/api/?results=12')
     .then( results => generateGalleryHTML(results) )
     .catch(error => {
         console.error('Error: ', error);
@@ -51,25 +64,30 @@ function generateGalleryHTML(results) {
 }
 
 // Create and populate user info for modal
-function generateModalHTML() {
+function generateModalHTML(e) {
     try {
-        const html = `
-            <div class="modal-container">
-            <div class="modal">
-                <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
-                <div class="modal-info-container">
-                    <img class="modal-img" src="https://placehold.it/125x125" alt="profile picture">
-                    <h3 id="name" class="modal-name cap">name</h3>
-                    <p class="modal-text">email</p>
-                    <p class="modal-text cap">city</p>
-                    <hr>
-                    <p class="modal-text">(555) 555-5555</p>
-                    <p class="modal-text">123 Portland Ave., Portland, OR 97204</p>
-                    <p class="modal-text">Birthday: 10/21/2015</p>
-                </div>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', html);
+        for (const user of cachedUsers) {
+            if ( e.target.className.includes('card') &&
+                `${user.name.first} ${user.name.last}` === e.target.closest('.card').querySelector('.card-name').textContent ) {
+                const html = `
+                    <div class="modal-container">
+                    <div class="modal">
+                        <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+                        <div class="modal-info-container">
+                            <img class="modal-img" src="${user.picture.medium}" alt="profile picture">
+                            <h3 id="name" class="modal-name cap">${user.name.first} ${user.name.last}</h3>
+                            <p class="modal-text">${user.email}</p>
+                            <p class="modal-text cap">${user.location.city}</p>
+                            <hr>
+                            <p class="modal-text">${user.cell}</p>
+                            <p class="modal-text">${user.location.street.number} ${user.location.street.name}, ${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
+                            <p class="modal-text">Birthday: ${user.dob.date.slice(0,10)}</p>
+                        </div>
+                    </div>
+                `;
+                document.body.insertAdjacentHTML('beforeend', html);
+            } 
+        }
     } catch (error) {
         console.log(error.message);
     }
@@ -88,7 +106,7 @@ gallery.addEventListener('click', (e) => {
     if ( !e.target.className.includes('card') ){
         return;
     } else {
-        generateModalHTML();
+        generateModalHTML(e);
     };
 });
 
