@@ -16,7 +16,7 @@ function fetchData (url) {
             }
             return response.json();
         });
-}
+};
 
 function cacheUsers(url) {
     //if already cached, then return the cached data
@@ -29,11 +29,11 @@ function cacheUsers(url) {
                 cachedUsers = data.results;
                 return cachedUsers;
             });
-    }
-}
+    };
+};
 
 cacheUsers('https://randomuser.me/api/?results=12')
-    .then( results => generateGalleryHTML(results) )
+    .then( cachedUsers => generateGalleryHTML(cachedUsers) )
     .catch(error => {
         console.error('Error: ', error);
     });
@@ -45,23 +45,23 @@ cacheUsers('https://randomuser.me/api/?results=12')
 //-------------------
 
 // Create and populate user info to gallery
-function generateGalleryHTML(results) {
-    for (const person of results){
+function generateGalleryHTML(cachedUsers) {
+    for (const user of cachedUsers){
         const html = `
         <div class="card">
         <div class="card-img-container">
-            <img class="card-img" src="${person.picture.medium}" alt="profile picture">
+            <img class="card-img" src="${user.picture.medium}" alt="profile picture">
         </div>
         <div class="card-info-container">
-            <h3 id="name" class="card-name cap">${person.name.first} ${person.name.last}</h3>
-            <p class="card-text">${person.email}</p>
-            <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
+            <h3 id="name" class="card-name cap">${user.name.first} ${user.name.last}</h3>
+            <p class="card-text">${user.email}</p>
+            <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
         </div>
         `;
 
         gallery.insertAdjacentHTML('beforeend', html);
     };
-}
+};
 
 // Create and populate user info for modal
 function generateModalHTML(e) {
@@ -79,7 +79,7 @@ function generateModalHTML(e) {
                             <p class="modal-text">${user.email}</p>
                             <p class="modal-text cap">${user.location.city}</p>
                             <hr>
-                            <p class="modal-text">${user.cell}</p>
+                            <p class="modal-text">Phone: ${user.phone}</p>
                             <p class="modal-text">${user.location.street.number} ${user.location.street.name}, ${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
                             <p class="modal-text">Birthday: ${user.dob.date.slice(0,10)}</p>
                         </div>
@@ -90,18 +90,16 @@ function generateModalHTML(e) {
         }
     } catch (error) {
         console.log(error.message);
-    }
-}
+    };
+};
 
 
 
 //===================
 // MODAL HANDLING DATA
 //-------------------
-/**
- * create modal window when any part of employee item is clicked
- * include: image, name, email, city/location, cell#, detailed address, birthday
- */
+
+//create/display modal when user card clicked
 gallery.addEventListener('click', (e) => {
     if ( !e.target.className.includes('card') ){
         return;
@@ -110,7 +108,7 @@ gallery.addEventListener('click', (e) => {
     };
 });
 
-//close modal on close-btn
+//close/delete modal on close-btn
 document.addEventListener('click', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     const closeBtn = document.querySelector('.modal-close-btn');
@@ -118,13 +116,13 @@ document.addEventListener('click', (e) => {
         (e.target === closeBtn || closeBtn.contains(e.target)) 
     ){
         document.body.removeChild(modalContainer);
-    }
+    };
 });
 
-//close modal on Escape key
+//close/delete modal on Escape key
 document.addEventListener('keyup', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     if (modalContainer && e.key === 'Escape') {
         document.body.removeChild(modalContainer);
-    }
+    };
 });
