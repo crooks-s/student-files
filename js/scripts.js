@@ -67,13 +67,15 @@ gallery.addEventListener('click', (e) => {
 });
 
 //close modal on close-btn
-// document.addEventListener('click', (e) => {
-//     const modalContainer = document.querySelector('.modal-container');
-//     const closeBtn = modalContainer.getElementsByTagName('BUTTON')[0];
-//     if (modalContainer && e.target === closeBtn){
-//         document.body.removeChild(modalContainer);
-//     }
-// });
+document.addEventListener('click', (e) => {
+    const modalContainer = document.querySelector('.modal-container');
+    const closeBtn = document.querySelector('.modal-close-btn');
+    if (modalContainer && 
+        (e.target === closeBtn || closeBtn.contains(e.target)) 
+    ){
+        document.body.removeChild(modalContainer);
+    }
+});
 
 //close modal on Escape key
 document.addEventListener('keyup', (e) => {
