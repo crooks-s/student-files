@@ -18,10 +18,7 @@ async function getPeople(url) {
 
     for (const person of peopleJSON){
         const gallery = document.querySelector('#gallery');
-        const div = document.createElement('div');
-        gallery.appendChild(div);
-
-        div.innerHTML = `
+        const html = `
         <div class="card">
         <div class="card-img-container">
             <img class="card-img" src="${person.picture.medium}" alt="profile picture">
@@ -32,6 +29,8 @@ async function getPeople(url) {
             <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
         </div>
         `;
+
+        gallery.insertAdjacentHTML('beforeend', html);
     }
 
 }
