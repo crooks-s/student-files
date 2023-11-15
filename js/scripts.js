@@ -4,7 +4,7 @@ const gallery = document.querySelector('#gallery');
 
 
 //===================
-// FETCH DATA and CACHE USERS
+// FETCH USERS and CACHE USERS
 //-------------------
 let cachedUsers;
 
@@ -19,10 +19,8 @@ function fetchData (url) {
 };
 
 function cacheUsers(url) {
-    //if already cached, then return the cached data
     if (cachedUsers) {
         return Promise.resolve(cachedUsers);
-    // else fetch and cache them in a var
     } else {
         return fetchData(url)
             .then( data => {
@@ -58,12 +56,11 @@ function generateGalleryHTML(cachedUsers) {
             <p class="card-text cap">${user.location.city}, ${user.location.state}</p>
         </div>
         `;
-
         gallery.insertAdjacentHTML('beforeend', html);
     };
 };
 
-// Create and populate user info for modal
+// Create and populate user info to modal
 function generateModalHTML(e) {
     try {
         for (const user of cachedUsers) {
@@ -99,7 +96,7 @@ function generateModalHTML(e) {
 // MODAL HANDLING DATA
 //-------------------
 
-//create/display modal when user card clicked
+//create/display modal when user card is clicked
 gallery.addEventListener('click', (e) => {
     if ( !e.target.className.includes('card') ){
         return;
@@ -109,7 +106,7 @@ gallery.addEventListener('click', (e) => {
     };
 });
 
-//close/delete modal on close-btn
+//close/delete modal on clicking close-btn
 document.addEventListener('click', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     const closeBtn = document.querySelector('.modal-close-btn');
