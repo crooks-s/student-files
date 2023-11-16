@@ -30,7 +30,7 @@ function cacheUsers(url) {
     };
 };
 
-cacheUsers('https://randomuser.me/api/?results=12')
+cacheUsers('https://randomuser.me/api/?results=12&nat=us,gb')
     .then( cachedUsers => generateGalleryHTML(cachedUsers) )
     .catch(error => {
         console.error('Error: ', error);
@@ -131,3 +131,23 @@ document.addEventListener('click', (e) => {
         modalContainer.remove();
     };
 });
+
+
+
+//===================
+// SEARCH FUNCTIONALITY
+//-------------------
+
+//create and add search form to DOM
+function appendSearchForm() {
+    let html = `
+        <form action="#" method="get">
+            <input type="search" id="search-input" class="search-input" placeholder="Search...">
+            <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+        </form>
+    `;
+    document.querySelector('.search-container').innerHTML += html;
+};
+
+appendSearchForm();
+
