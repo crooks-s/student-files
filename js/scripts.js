@@ -30,6 +30,11 @@ function cacheUsers(url) {
     };
 };
 
+
+/**
+ * Note: request retrieves 'gb' and 'us' 
+ * for later added search functionality using English alphabet
+ */ 
 cacheUsers('https://randomuser.me/api/?results=12&nat=us,gb')
     .then( cachedUsers => generateGalleryHTML(cachedUsers) )
     .catch(error => {
@@ -55,6 +60,7 @@ function generateGalleryHTML(cachedUsers) {
     };
 };
 
+
 // Create and populate user data/info to .modal
 function generateModalHTML(e) {
     try {
@@ -71,7 +77,7 @@ function generateModalHTML(e) {
                             <p class="modal-text">${user.email}</p>
                             <p class="modal-text cap">${user.location.city}</p>
                             <hr>
-                            <p class="modal-text">Phone: ${user.phone}</p>
+                            <p class="modal-text">Cell: ${user.cell}</p>
                             <p class="modal-text">${user.location.street.number} ${user.location.street.name}, ${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
                             <p class="modal-text">Birthday: ${user.dob.date.slice(0,10)}</p>
                         </div>
