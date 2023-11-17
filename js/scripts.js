@@ -1,13 +1,7 @@
-// Global DOM vars
 const gallery = document.querySelector('#gallery');
 
 
-
-//===================
-// FETCH USERS and CACHE USERS
-//-------------------
-let cachedUsers;
-
+// Fetch the data/users
 function fetchData (url) {
     return fetch(url)
         .then( response => {
@@ -18,6 +12,12 @@ function fetchData (url) {
         });
 };
 
+
+/**
+ * Cache the users because fetching again will result in
+ * a set of new, random data/users.
+ */
+let cachedUsers;
 function cacheUsers(url) {
     if (cachedUsers) {
         return Promise.resolve(cachedUsers);
@@ -37,12 +37,7 @@ cacheUsers('https://randomuser.me/api/?results=12&nat=us,gb')
     });
 
 
-
-//===================
-// GENERATE HTML DATA
-//-------------------
-
-// Create and populate user info to gallery
+// Create and populate user info/HTML to #gallery
 function generateGalleryHTML(cachedUsers) {
     for (const user of cachedUsers){
         const html = `
@@ -60,7 +55,7 @@ function generateGalleryHTML(cachedUsers) {
     };
 };
 
-// Create and populate user info to modal
+// Create and populate user data/info to .modal
 function generateModalHTML(e) {
     try {
         for (const user of cachedUsers) {
@@ -91,12 +86,7 @@ function generateModalHTML(e) {
 };
 
 
-
-//===================
-// MODAL HANDLING DATA
-//-------------------
-
-//create/display modal when user card is clicked
+// Create/display modal when a user .card is clicked
 gallery.addEventListener('click', (e) => {
     if ( !e.target.className.includes('card') ){
         return;
@@ -106,7 +96,7 @@ gallery.addEventListener('click', (e) => {
     };
 });
 
-//close/delete modal on clicking close-btn
+// Close/delete modal on clicking close-btn
 document.addEventListener('click', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     const closeBtn = document.querySelector('.modal-close-btn');
@@ -115,7 +105,7 @@ document.addEventListener('click', (e) => {
     };
 });
 
-//close/delete modal on Escape key
+// Close/delete modal on 'Escape' key
 document.addEventListener('keyup', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     if (modalContainer && e.key === 'Escape') {
@@ -123,7 +113,7 @@ document.addEventListener('keyup', (e) => {
     };
 });
 
-//close/delete modal on clicking out of modal
+// Close/delete modal on clicking out of modal
 document.addEventListener('click', (e) => {
     const modalContainer = document.querySelector('.modal-container');
     const modalInfoContainer = document.querySelector('.modal-info-container');
