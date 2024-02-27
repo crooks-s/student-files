@@ -15,4 +15,4 @@ This is a Team Treehouse project demonstrating:
 This application presents a compilation of 12 random users retrieved through the 'randomuser.me' API. Upon clicking a user card, a modal is created and displayed with additional information about the selected user. The modals may be closed with using the 'escape' key on the physical keyboard, clicking out of the modal, or clicking the 'X' close button on the modal. 
 
 Author: Sean Crooks
-Contributions: Team Treehouse supplied all files except 'scripts.js'. This file was created and written solely by author.
+<br>Contributions: Team Treehouse supplied all files except 'scripts.js'. This file was created and written solely by author.
