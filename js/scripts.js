@@ -1,6 +1,5 @@
 const gallery = document.querySelector('#gallery');
 
-
 // Fetch the data/users
 function fetchData (url) {
     return fetch(url)
@@ -11,7 +10,6 @@ function fetchData (url) {
             return response.json();
         });
 };
-
 
 /**
  * Cache the users because fetching again will result in
@@ -30,7 +28,6 @@ function cacheUsers(url) {
     };
 };
 
-
 /**
  * Note: request retrieves 'gb' and 'us' 
  * for later added search functionality using English alphabet
@@ -40,7 +37,6 @@ cacheUsers('https://randomuser.me/api/?results=12&nat=us,gb')
     .catch(error => {
         console.error('Error: ', error);
     });
-
 
 // Create and populate user info/HTML to #gallery
 function generateGalleryHTML(cachedUsers) {
@@ -59,7 +55,6 @@ function generateGalleryHTML(cachedUsers) {
         gallery.insertAdjacentHTML('beforeend', html);
     };
 };
-
 
 // Create and populate user data/info to .modal
 function generateModalHTML(e) {
@@ -90,7 +85,6 @@ function generateModalHTML(e) {
         console.log(error.message);
     };
 };
-
 
 // Create/display modal when a user .card is clicked
 gallery.addEventListener('click', (e) => {
