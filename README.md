@@ -1,9 +1,11 @@
 # student-files
-Team Treehouse Unit 5 Project
+## Introduction
+Treehouse Unit 5 Project. This application retrieves 12 random users from the 'randomuser.me' API and displays a modal when a user card is clicked.
 
-This application presents a compilation of 12 random users retrieved through the 'randomuser.me' API. Upon clicking a user card, a modal is created and displayed with additional information about the selected user. The modals may be closed with using the 'escape' key on the physical keyboard, clicking out of the modal, or clicking the 'X' close button on the modal. 
+## Tech Stack
+HTML/CSS. JavaScript.
 
-This is a Team Treehouse project demonstrating:
+## Process/Learning (to be updated)
 1. Dom Manipulation
 2. Array iteration methods
 3. Enumerable iteration methods
@@ -13,5 +15,16 @@ This is a Team Treehouse project demonstrating:
 7. Event listeners and event handlers
 8. Modal creation and handling
 
-Author: Sean Crooks
-<br>Contributions: Team Treehouse supplied all files except 'scripts.js'. This file was created and written solely by author.
+## Improvement
+Could add a search function.
+
+## Running the Project
+Clone the project, and simply open ```index.html```
+<br /> Otherwise, I have a live version [here](https://crooks-s.github.io/student-files/).
+
+## Author
+Sean Crooks
+
+## Contributions
+Team Treehouse supplied all files except 'scripts.js'. 
+This file was created and written solely by author.
